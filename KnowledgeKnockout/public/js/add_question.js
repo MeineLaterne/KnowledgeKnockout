@@ -1,15 +1,16 @@
 import { Ajax } from './modules/ajax.js';
 
-let form = document.getElementById('questionUploadForm');
-let textArea = document.getElementById('questionContent');
-let wrongAnswer01 = document.getElementById('answer_01');
-let wrongAnswer02 = document.getElementById('answer_02');
-let wrongAnswer03 = document.getElementById('answer_03');
-let correctAnswer = document.getElementById('answer_04');
-let topicBlockSelect = document.getElementById('topicBlock');
-let topicSelect = document.getElementById('topic');
+const form = document.getElementById('questionUploadForm');
+const textArea = document.getElementById('questionContent');
+const wrongAnswer01 = document.getElementById('answer_01');
+const wrongAnswer02 = document.getElementById('answer_02');
+const wrongAnswer03 = document.getElementById('answer_03');
+const correctAnswer = document.getElementById('answer_04');
+const topicBlockSelect = document.getElementById('topicBlock');
+const topicSelect = document.getElementById('topic');
+const secondsInput = document.getElementByID('secondsToAnswer');
 
-form.onsubmit = async function (e) {
+form.onsubmit = async e => {
     e.preventDefault();
 
     let data = {
@@ -19,11 +20,12 @@ form.onsubmit = async function (e) {
         wrongAnswer03: wrongAnswer03.value,
         correctAnswer: correctAnswer.value,
         topicBlockId: topicBlockSelect.options[topicBlockSelect.selectedIndex].value,
-        topicId: topicSelect.options[topicSelect.selectedIndex].value
+        topicId: topicSelect.options[topicSelect.selectedIndex].value,
+        seconds: secondsInput.value
     };
 
     try {
-        const response = await Ajax.post('/add-question', JSON.stringify(data), { 'Content-Type': 'application/json' });
+        const response = JSON.parse(await Ajax.post('/add-question', JSON.stringify(data), { 'Content-Type': 'application/json' }));
 
         if (response.success === true) {
             let reset = confirm('Hat geklappt! Formular resetten?');
@@ -34,6 +36,7 @@ form.onsubmit = async function (e) {
                 wrongAnswer02.value = '';
                 wrongAnswer03.value = '';
                 correctAnswer.value = '';
+                secondsInput.value = '';
             } 
         } else {
             throw response.error;

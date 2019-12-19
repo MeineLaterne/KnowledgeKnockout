@@ -15,18 +15,21 @@ export class Ajax {
             }
 
             xhr.onload = function () {
-                resolve(JSON.parse(this.responseText));
+                resolve(this.responseText);
             };
 
             xhr.onerror = function () {
-                reject(this.status);
+                reject(`Fehler! Request Status: ${this.statusText}`);
             };
 
             xhr.onabort = function () {
-                reject(this.status);
+                reject('Vorgang abgebrochen.');
             };
 
-            xhr.send(data);
+            if (data !== null)
+                xhr.send(data);
+            else
+                xhr.send();
 
         });
     }
@@ -40,4 +43,12 @@ export class Ajax {
         }
     }
 
+    static async get(url, headers) {
+        try {
+            let response = await Ajax.request('GET', url, null, headers);
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
 }

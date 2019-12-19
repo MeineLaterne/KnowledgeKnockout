@@ -17,11 +17,12 @@ export async function add_question_route_post(req: Request, res: Response): Prom
 	const correctAnswer: string = req.body.correctAnswer;
 	const topicId: string = req.body.topicId;
 	const topicBlockId: string = req.body.topicBlockId;
+	const secondsToAnswer = req.body.seconds;
 	let lastQuestionId: number = 0;
 
 	try {
-		const sql: string = 'insert into question (content, blockId, topicId) values (?, ?, ?)';
-		const inserts: string[] = [questionContent, topicBlockId, topicId];
+		const sql: string = 'insert into question (content, blockId, topicId, secondsToAnswer) values (?, ?, ?, ?)';
+		const inserts: string[] = [questionContent, topicBlockId, topicId, secondsToAnswer];
 		//const results = await MySQL.query(sql, inserts);
 		const results = await MySQL.queryWithTransaction(sql, inserts);
 		lastQuestionId = results.insertId;
