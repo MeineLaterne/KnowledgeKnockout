@@ -9,7 +9,7 @@ import { example_route_get, example_route_post } from './routes/example_route';
 import { index_route_get } from './routes/index_route';
 import { socketiotest_get_route } from './routes/socketiotest_get_route';
 import { SocketConnection } from './socket_connection/SocketConnection';
-import { User } from './users/User';
+import { User } from './users_example/User';
 
 const app = express();
 

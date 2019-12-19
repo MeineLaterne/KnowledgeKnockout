@@ -41,6 +41,12 @@ SESSIONID=sid</Environment>
   <ItemGroup>
     <None Include="KnowledgeKnockout.ts" />
     <Content Include="package.json" />
+    <Content Include="public\js\add_question.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="public\js\modules\ajax.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="public\test.txt">
       <SubType>Code</SubType>
     </Content>
@@ -48,7 +54,10 @@ SESSIONID=sid</Environment>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="mysql\" />
-    <Folder Include="users\" />
+    <Folder Include="public\js\" />
+    <Folder Include="public\js\modules\" />
+    <Folder Include="questions\" />
+    <Folder Include="users_example\" />
     <Folder Include="socket_connection\" />
     <Folder Include="views\" />
     <Folder Include="public\" />
@@ -67,6 +76,9 @@ SESSIONID=sid</Environment>
     <TypeScriptCompile Include="mysql\MySql.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="questions\Questions.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="routes\add_question_route.ts" />
     <TypeScriptCompile Include="routes\any_route.ts">
       <SubType>Code</SubType>
@@ -83,13 +95,13 @@ SESSIONID=sid</Environment>
     <TypeScriptCompile Include="socket_connection\SocketConnection.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="users\Authentication.ts">
+    <TypeScriptCompile Include="users_example\Authentication.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="users\BCrypt.ts">
+    <TypeScriptCompile Include="users_example\BCrypt.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="users\User.ts">
+    <TypeScriptCompile Include="users_example\User.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="views\render.ts" />

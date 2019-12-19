@@ -65,60 +65,8 @@
             <button type="submit">Abschicken!</button>
         </form>
 
-        <script>
-            (function () {
+        <script type="module" src="js/add_question.js"></script>
 
-                let form = document.getElementById('questionUploadForm');
-                let topicBlockSelect = document.getElementById('topicBlock');
-                let topicSelect = document.getElementById('topic');
-
-                form.onsubmit = function (e) {
-                    e.preventDefault();
-
-                    let data = {
-                        content: document.getElementById('questionContent').value,
-                        wrongAnswer01: document.getElementById('answer_01').value,
-                        wrongAnswer02: document.getElementById('answer_02').value,
-                        wrongAnswer03: document.getElementById('answer_03').value,
-                        correctAnswer: document.getElementById('answer_04').value,
-                        topicBlockId: topicBlockSelect.options[topicBlockSelect.selectedIndex].value,
-                        topicId: topicSelect.options[topicSelect.selectedIndex].value
-                    };
-
-                    console.log(data);
-
-                    let xhr = new XMLHttpRequest();
-
-                    xhr.open('POST', 'http://localhost/add-question');
-
-                    xhr.setRequestHeader('Content-Type', 'application/json');
-
-                    xhr.onload = function () {
-                        let response = JSON.parse(this.responseText);
-
-                        if (response.success === true) {
-                            // kein fehler
-                            let reload = confirm('Hat geklappt! Formular resetten?');
-
-                            if (reload === true) {
-                                location.reload();
-                            }
-                        } else {
-                            alert(`Ein Fehler ist aufgetreten: ${response.error}`);
-                        }
-
-                        if (this.responseText === '') {
-                            // fehler
-                            
-                        } else {
-                            
-                        }
-                    };
-
-                    xhr.send(JSON.stringify(data));
-                };
-
-            })();
-        </script>
+        
     </body>
 </html>

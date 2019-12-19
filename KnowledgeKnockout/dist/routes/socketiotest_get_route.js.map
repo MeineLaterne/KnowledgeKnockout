@@ -1,1 +1,0 @@
-{"version":3,"file":"socketiotest_get_route.js","sourceRoot":"","sources":["../../routes/socketiotest_get_route.ts"],"names":[],"mappings":";;;;;;;;;;;AACA,4CAAyC;AAEzC,SAAsB,sBAAsB,CAAC,GAAY,EAAE,GAAa;;QACpE,GAAG,CAAC,IAAI,CAAC,MAAM,eAAM,CAAC,CAAC,oBAAoB,CAAC,EAAE,EAAE,KAAK,EAAE,wBAAwB,EAAE,CAAC,CAAC,CAAC;IACxF,CAAC;CAAA;AAFD,wDAEC"}

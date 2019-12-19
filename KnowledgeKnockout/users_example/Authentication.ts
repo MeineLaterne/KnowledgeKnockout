@@ -7,12 +7,12 @@ export class Authentication {
         if (!await Authentication.userExists(email)) MySQL.query('INSERT INTO users (email, password, ...) VALUES (?, ?, ...)', [email, password/*, ...*/]);
     }
     public static async login(email: string, password: string) {
-        let result = await MySQL.query('SELECT email, password FROM users WHERE email=?', [email]);
+        const result = await MySQL.query('SELECT email, password FROM users WHERE email=?', [email]);
         if (await BCrypt.match(password, result.password)) return new User(email/*, ...*/);
         else return new User();
     }
     public static async userExists(email: string): Promise<boolean> {
-        let result = await MySQL.query('SELECT email FROM users WHERE email=?', [email]);
+        const result = await MySQL.query('SELECT email FROM users WHERE email=?', [email]);
         return !!result.email;
     }
 }
