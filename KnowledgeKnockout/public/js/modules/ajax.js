@@ -26,10 +26,7 @@ export class Ajax {
                 reject('Vorgang abgebrochen.');
             };
 
-            if (data !== null)
-                xhr.send(data);
-            else
-                xhr.send();
+            xhr.send(data || null);
 
         });
     }
