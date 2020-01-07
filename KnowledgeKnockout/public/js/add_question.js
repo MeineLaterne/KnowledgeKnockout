@@ -8,7 +8,7 @@ const wrongAnswer03 = document.getElementById('answer_03');
 const correctAnswer = document.getElementById('answer_04');
 const topicBlockSelect = document.getElementById('topicBlock');
 const topicSelect = document.getElementById('topic');
-const secondsInput = document.getElementByID('secondsToAnswer');
+const secondsInput = document.getElementById('secondsToAnswer');
 
 form.onsubmit = async e => {
     e.preventDefault();

@@ -10,6 +10,7 @@ import { index_route_get } from './routes/index_route';
 import { socketiotest_get_route } from './routes/socketiotest_get_route';
 import { SocketConnection } from './socket_connection/SocketConnection';
 import { User } from './users_example/User';
+import { Questions } from './questions/Questions';
 
 const app = express();
 
@@ -56,3 +57,13 @@ app.get('/add-question', add_question_route_get).post('/add-question', add_quest
 app.get('*', any_route_get);
 
 ChatExample.initialize();
+
+Questions.test(1, 1).then(console.log);
+Questions.test(2, 1).then(console.log);
+Questions.test(3, 1).then(console.log);
+Questions.test(4, 1).then(console.log);
+
+Questions.test(5, 2).then(console.log);
+Questions.test(6, 2).then(console.log);
+Questions.test(7, 2).then(console.log);
+Questions.test(8, 2).then(console.log);
