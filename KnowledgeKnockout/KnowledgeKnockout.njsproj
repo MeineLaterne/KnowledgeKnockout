@@ -44,6 +44,9 @@ SESSIONID=sid</Environment>
     <Content Include="public\js\add_question.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="public\js\registration.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="public\js\modules\ajax.js">
       <SubType>Code</SubType>
     </Content>

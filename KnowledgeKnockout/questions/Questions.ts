@@ -29,7 +29,7 @@ export class Questions {
             return randomizeArray(result.map((a: Answer) => new Answer(a.id, a.questionId, a.content, a.isCorrect, a.imgSrc)));
         }
         catch (error) {
-            console.log(error);
+            console.error(error);
             return [];
         }
     }
