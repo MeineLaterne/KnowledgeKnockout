@@ -1,7 +1,6 @@
 const name = document.getElementById('name');
 const password = document.getElementById('password');
 const submitBtn = document.getElementById('submit');
-const bcrypt = window.dcodeIO.bcrypt;
 
 submitBtn.onclick = async e => {
     e.preventDefault();
@@ -10,7 +9,7 @@ submitBtn.onclick = async e => {
 
     let data = {
         name: name.value,
-        password: bcrypt.hashSync(password.value)
+        password: password.value
     };
 
     // validate input
@@ -27,34 +26,18 @@ submitBtn.onclick = async e => {
     if (errorString.length !== 0) {
         return alert(errorString);
     }
+
+    
+
     try {
+
         const res = await fetch('/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         });
 
-        const hash = await res.json();
-        const success = await bcrypt.compare(password.value, hash.value);
-
-        if (success == true) {
-            data.action = 'confirm';
-            const confirmationResponse = await fetch('/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-
-            const confirmation = await confirmationResponse.json();
-
-            if (confirmation == true) {
-                alert('Login successful.');
-            }
-
-        } else {
-            alert('Login failed.');
-        }
-            
+        alert(await res.json());
 
     } catch (error) {
         alert(`Ein Fehler ist aufgetreten: ${error}`);
