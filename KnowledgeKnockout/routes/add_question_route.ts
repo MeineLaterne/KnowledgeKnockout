@@ -28,7 +28,7 @@ export async function add_question_route_post(req: Request, res: Response): Prom
 		lastQuestionId = results.insertId;
 	}
 	catch (error) {
-		res.send(JSON.stringify({ success: false, error: error.code }));
+		res.send(JSON.stringify({ success: false, error: error }));
 		return;
 	}
 
@@ -40,6 +40,6 @@ export async function add_question_route_post(req: Request, res: Response): Prom
 		res.send(JSON.stringify({ success: true }));
 	}
 	catch (error) {
-		res.send(JSON.stringify({ success: false, error: error.code }));
+		res.send(JSON.stringify({ success: false, error: error }));
 	}
 }
