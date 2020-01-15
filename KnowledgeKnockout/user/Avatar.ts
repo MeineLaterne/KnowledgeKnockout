@@ -1,4 +1,4 @@
-import { MySQL } from "../mysql/MySql";
+import { MySQL } from '../mysql/MySql';
 
 export class Avatar {
     private _id: number;

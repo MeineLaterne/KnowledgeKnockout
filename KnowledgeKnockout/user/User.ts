@@ -1,5 +1,5 @@
-import { MySQL } from "../mysql/MySql";
-import { Avatar } from "./Avatar";
+import { MySQL } from '../mysql/MySql';
+import { Avatar } from './Avatar';
 
 export class User {
     private _id: number;
@@ -8,7 +8,8 @@ export class User {
     private _progress: number;
     public avatars: Avatar[] = [];
     public sessionID: string = '';
-    public isSearchingMatch: boolean = true;
+    public isSearchingMatch: boolean = false;
+    public isInMatch: boolean = false;
     public constructor(id: number, name: string, email: string, progress: number) {
         this._id = id;
         this._name = name;
