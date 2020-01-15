@@ -1,6 +1,6 @@
 import { Server } from 'http';
 import * as socketio from 'socket.io';
-import { Sessions } from '../user/Sessions';
+import { Users } from '../user/Sessions';
 import { User } from '../user/User';
 
 export class SocketConnection {
@@ -14,11 +14,11 @@ export class SocketConnection {
             socket.on('disconnect', () => SocketConnection.sockets.delete(SocketConnection.getSessionId(socket)));
 
             socket.on('chatmessage', msg => {
-                const user = <User>Sessions.get(SocketConnection.getSessionId(socket))?.user;
+                const user = <User>Users.get(SocketConnection.getSessionId(socket))?.user;
                 if (user && !user?.isInMatch) {
                     for (const [sessionID, socket] of SocketConnection.sockets) {
                         console.log(sessionID);
-                        const user = <User>Sessions.get(sessionID).user;
+                        const user = <User>Users.get(sessionID).user;
                         if (!user.isInMatch) socket.emit('chatmessage', { msg, user: (<any>user)._name });
                     }
                 }

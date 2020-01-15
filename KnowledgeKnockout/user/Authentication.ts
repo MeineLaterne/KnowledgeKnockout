@@ -26,7 +26,6 @@ export class Authentication {
     public static async login(name: string, password: string): Promise<User | undefined> {
         try {
             const result = await MySQL.query('SELECT * FROM user WHERE name=?', [name]);
-            console.log(result);
             if (!result[0].password) throw 'no password';
 
             if (await BCrypt.match(password, result[0].password)) return new User(result[0].id, result[0].name, result[0].email, result[0].progress);

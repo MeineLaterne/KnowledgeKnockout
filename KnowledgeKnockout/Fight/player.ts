@@ -10,6 +10,7 @@ export class Player {
     public score: number = 0;
     public constructor(user: User) {
         this.user = user;
+
         this.socket = <Socket>SocketConnection.get(this.user.sessionID);
         this.socket.on('testAnswer', this.TestAnswerEvent.bind(this));
     }

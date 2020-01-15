@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+    <input id="toggleSearchingMatch" type="button" value="search match" />
+    <script>
+        const button = document.getElementById('toggleSearchingMatch');
+        let isSearchingMatch = false;
+
+        button.addEventListener('click', async () => {
+            isSearchingMatch = !isSearchingMatch;
+            button.value = isSearchingMatch ? 'stop searching' : 'search match';
+
+            const response = fetch('/match', {
+                method: 'post',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ isSearchingMatch })
+            });
+        });
+
+        setInterval(async () => {
+            const response = await fetch('/match', { method: 'post' });
+
+            if (JSON.parse(await response.text())) {
+                window.location.href = '/match';
+            } else console.log(false);
+        }, 1000);
+
+    </script>
+</body>
+</html>

@@ -9,18 +9,20 @@ import * as compression from 'compression';
 import * as express from 'express';
 import * as session from 'express-session';
 import * as helmet from 'helmet';
-import { resolve } from 'path';
+import { FightManager } from './Fight/fightManager';
 import { add_question_route_get, add_question_route_post } from './routes/add_question_route';
 import { any_route_get } from './routes/any_route';
 import { index_route_get } from './routes/index_route';
 import { login_route_get, login_route_post } from './routes/login_route';
 import { logout_route_get } from './routes/logout_route';
+import { match_route_get, match_route_post } from './routes/match_route';
 import { registration_route_get, registration_route_post } from './routes/registration_route';
 import { socketiotest_get_route } from './routes/socketiotest_get_route';
 import { training_route_get, training_route_post } from './routes/training_route';
 import { SocketConnection } from './socket_connection/SocketConnection';
 import { Authentication } from './user/Authentication';
-import { Sessions } from './user/Sessions';
+import { Users } from './user/Sessions';
+
 
 
 const app = express();
@@ -33,7 +35,6 @@ app.use(helmet());
 app.use(compression());
 
 app.use(express.static('public'));
-app.use('/bcrypt', express.static(resolve('./node_modules/bcryptjs/dist/')));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -48,8 +49,9 @@ app.use(session({
 }));
 
 app.use((req, res, next) => {
-    if (req.session?.user && !Sessions.get(req.session.id)) Sessions.add(req.session);
-    console.log(req.sessionID, req.session?.id);
+    if (req.session?.user && !Users.get(req.session.id)) Users.add(req.session.user);
+
+    if (req.session?.user) req.session.user = Users.get(req.sessionID || '');
 
     next();
 });
@@ -68,4 +70,8 @@ app.get('/logout', logout_route_get);
 
 app.get('/training', Authentication.loginCheck, training_route_get).post('/training', training_route_post);
 
+app.get('/match', Authentication.loginCheck, match_route_get).post('/match', match_route_post);
+
 app.get('*', any_route_get);
+
+FightManager.initialize();

@@ -32,6 +32,20 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="public\searchMatch.html">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="views\add_question.html" />
+    <Content Include="views\chat.html" />
+    <Content Include="views\match.html">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="views\registration.html" />
+    <Content Include="views\head.html" />
+    <Content Include="views\_example_head.html" />
+    <Content Include="views\_example_index.html" />
+    <Content Include="views\_example_socket.io.html" />
+    <Content Include="views\_registration.html" />
     <None Include="KnowledgeKnockout.ts" />
     <Content Include=".env" />
     <Content Include="build.js">
@@ -115,6 +129,9 @@
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="routes\logout_route.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="routes\match_route.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="routes\registration_route.ts" />

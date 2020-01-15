@@ -3,20 +3,17 @@ const path = require('path');
 
 const dir = path.resolve(__dirname);
 
-if (fs.existsSync(dir + '/dist/public')) {
-    deleteFolderRecursive(dir + '/dist/public');
-}
-if (fs.existsSync(dir + '/dist/views')) {
-    deleteFolderRecursive(dir + '/dist/views');
-}
-if (fs.existsSync(dir + '/dist/.env')) {
-    fs.unlinkSync(dir + '/dist/.env');
+
+if (fs.existsSync(dir + '\\dist')) {
+    deleteFolderRecursive(dir + '\\dist');
 }
 
-fs.copyFileSync(dir + '/.env', dir + '/dist/.env');
+fs.mkdirSync(dir + '\\dist');
 
-copyFolderSync(dir + '/public', dir + '/dist/public');
-copyFolderSync(dir + '/views', dir + '/dist/views');
+fs.copyFileSync(dir + '\\.env', dir + '\\dist\\.env');
+
+copyFolderSync(dir + '\\public', dir + '\\dist\\public');
+copyFolderSync(dir + '\\views', dir + '\\dist\\views');
 
 function copyFolderSync(from, to) { // https://stackoverflow.com/questions/13786160/copy-folder-recursively-in-node-js#answer-52338335
     fs.mkdirSync(to);

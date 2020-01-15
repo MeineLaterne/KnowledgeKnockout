@@ -1,12 +1,14 @@
-export class Sessions {
-    private static sessions: Map<string, any> = new Map();
+import { User } from './User';
+
+export class Users {
+    public static users: Map<string, User> = new Map();
     public static get(sessionID: string): any {
-        return Sessions.sessions.get(sessionID);
+        return Users.users.get(sessionID);
     }
     public static add(session: any) {
-        Sessions.sessions.set(session.id, session);
+        Users.users.set(session.id, session);
     }
     public static remove(sessionID: string) {
-        Sessions.sessions.delete(sessionID);
+        Users.users.delete(sessionID);
     }
 }

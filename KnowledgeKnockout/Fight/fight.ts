@@ -1,29 +1,43 @@
 import { asyncTimeout } from '../helpers';
 import { Questions } from '../questions/Questions';
-import { User } from "../user/User";
+import { SocketConnection } from '../socket_connection/SocketConnection';
+import { Users } from '../user/Sessions';
+import { User } from '../user/User';
 import { Player } from './player';
 
 export class Fight {
-    public players: Player[];
-    public constructor(users: User[]) {
-        this.players = [];
+    public players: Player[] = [];
+    public constructor(sessionIDs: string[]) {
+        const users = <User[]>sessionIDs.map(sessionID => Users.get(sessionID).user);
         for (const user of users) {
-            this.players.push(new Player(user));
+            user.isInMatch = true;
+            console.log('!!!!!!!!!!!!!!!!!!!', user, Users.get(user.sessionID));
         }
 
-        for (const player of this.players) {
-            player.socket.on('chatmessage', msg => {
-                for (const player_ of this.players) {
-                    player_.socket.emit('chatmessage', { msg: msg, user: player.user.name });
+        const interval = setInterval(() => {
+            console.log(users.every(user => !!SocketConnection.get(user.sessionID)));
+            if (users.every(user => !!SocketConnection.get(user.sessionID))) {
+                for (const user of users) {
+                    this.players.push(new Player(user));
                 }
-            });
-        }
 
-        this.Start();
+                for (const player of this.players) {
+                    player.socket.on('chatmessage', msg => {
+                        for (const player_ of this.players) {
+                            player_.socket.emit('chatmessage', { msg: msg, user: player.user.name });
+                        }
+                    });
+                }
+
+                this.Start();
+
+                clearInterval(interval);
+            }
+        }, 100);
     }
     private async Start(): Promise<void> {
+        console.log('match start');
         for (const player of this.players) {
-            player.user.isInMatch = true;
             player.socket.emit('avatarInfo', this.players.map(player_ => ({ isThisPlayer: player.socket.id === player_.socket.id, avatars: player_.user.avatars.map(avatar => ({ topicId: avatar.topicId, level: avatar.level })) })));
         }
 
