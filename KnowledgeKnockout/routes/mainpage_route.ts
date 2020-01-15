@@ -1,12 +1,9 @@
 import { Request, Response } from 'express';
-import { resolve } from 'path';
-import { User } from '../user/User';
+import { render } from '../views/render';
 
 export async function mainpage_route_get(req: Request, res: Response) {
-    res.sendFile(resolve('./public/HTML_CSS/html/mainpage.html'));
+    res.send(await render(['mainpage'], {
+        title: 'mainpage',
+        userName: req.session?.user.name
+    }));
 }
-
-export async function mainpage_route_post(req: Request, res: Response): Promise<void> {
-    console.log(req.body);
-}
-

@@ -1,10 +1,12 @@
 import { Request, Response } from 'express';
-import { resolve } from 'path';
 import { Questions } from '../questions/Questions';
 import { User } from '../user/User';
+import { render } from '../views/render';
 
 export async function training_route_get(req: Request, res: Response) {
-    res.sendFile(resolve('./public/training_test.html'));
+    res.send(await render(['training'], {
+        title: 'training'
+    }));
 }
 
 export async function training_route_post(req: Request, res: Response) {

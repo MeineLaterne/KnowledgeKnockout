@@ -7,41 +7,32 @@ import { Authentication } from '../user/Authentication';
 
 export class Fight {
     public players: Player[] = [];
-    public constructor(userIds: string[]) {
-        (async () => {
-            let users: User[] = [];
-            for await (const user of userIds.map(userId => Authentication.createUser(userId))) {
-                if (user) users.push(<User>user);
-            }
+    public constructor(users: User[]) {
+        for (const user of users) {
+            user.isInMatch = true;
+        }
+        console.log(users);
 
-            for (const user of users) {
-                user.isInMatch = true;
-
-                console.log(`user ${user.id} is user: ${user instanceof User}`);
-            }
-            //console.log(users);
-
-            const interval = setInterval(() => {
-                console.log(users);
-                if (users.every(user => !!SocketConnection.get(user.sessionID))) {
-                    for (const user of users) {
-                        this.players.push(new Player(user));
-                    }
-
-                    for (const player of this.players) {
-                        player.socket.on('chatmessage', msg => {
-                            for (const player_ of this.players) {
-                                player_.socket.emit('chatmessage', { msg, user: player.user.name });
-                            }
-                        });
-                    }
-
-                    this.Start();
-
-                    clearInterval(interval);
+        const interval = setInterval(() => {
+            console.log(users);
+            if (users.every(user => !!SocketConnection.get(user.sessionID))) {
+                for (const user of users) {
+                    this.players.push(new Player(user));
                 }
-            }, 500);
-        })();
+
+                for (const player of this.players) {
+                    player.socket.on('chatmessage', msg => {
+                        for (const player_ of this.players) {
+                            player_.socket.emit('chatmessage', { msg, user: player.user.name });
+                        }
+                    });
+                }
+
+                this.Start();
+
+                clearInterval(interval);
+            }
+        }, 500);
     }
     private async Start(): Promise<void> {
         console.log('match start');
