@@ -1,16 +1,28 @@
+// initialize env variables
+import { config } from 'dotenv';
+
+for (const [key, val] of Object.entries(<any>config().parsed)) {
+    process.env[key] = <string>val;
+}
+
 import * as compression from 'compression';
 import * as express from 'express';
 import * as session from 'express-session';
 import * as helmet from 'helmet';
-import { ChatExample } from './chat_example';
+import { FightManager } from './Fight/fightManager';
 import { add_question_route_get, add_question_route_post } from './routes/add_question_route';
 import { any_route_get } from './routes/any_route';
-import { example_route_get, example_route_post } from './routes/example_route';
 import { index_route_get } from './routes/index_route';
-import { socketiotest_get_route } from './routes/socketiotest_get_route';
+import { login_route_get, login_route_post } from './routes/login_route';
+import { logout_route_get } from './routes/logout_route';
+import { mainpage_route_get } from './routes/mainpage_route';
+import { match_route_get, match_route_post } from './routes/match_route';
+import { registration_route_get, registration_route_post } from './routes/registration_route';
+import { training_route_get, training_route_post } from './routes/training_route';
 import { SocketConnection } from './socket_connection/SocketConnection';
-import { User } from './users_example/User';
-import { Questions } from './questions/Questions';
+import { Authentication } from './user/Authentication';
+import { Users } from './user/Users';
+
 
 const app = express();
 
@@ -20,6 +32,7 @@ SocketConnection.initialize(server);
 
 app.use(helmet());
 app.use(compression());
+
 app.use(express.static('public'));
 
 app.use(express.json());
@@ -34,13 +47,8 @@ app.use(session({
     name: process.env.SESSIONID
 }));
 
-// initialize session variables
 app.use((req, res, next) => {
-    if (req.session && !req.session.initialized) {
-        req.session.user = new User();
-
-        req.session.initialized = true;
-    }
+    if (req.session?.id) req.session.user = Users.get(req.session.id);
 
     next();
 });
@@ -48,22 +56,19 @@ app.use((req, res, next) => {
 
 app.get('/', index_route_get);
 
-app.get('/example', example_route_get).post('/example', example_route_post);
+app.get('/add-question', Authentication.loginCheck, add_question_route_get).post('/add-question', add_question_route_post);
 
-app.get('/socketiotest', socketiotest_get_route);
+app.get('/register', registration_route_get).post('/register', registration_route_post);
 
-app.get('/add-question', add_question_route_get).post('/add-question', add_question_route_post);
+app.get('/login', login_route_get).post('/login', login_route_post);
+app.get('/logout', logout_route_get);
+
+app.get('/mainpage', Authentication.loginCheck, mainpage_route_get);
+
+app.get('/training', Authentication.loginCheck, training_route_get).post('/training', training_route_post);
+
+app.get('/match', Authentication.loginCheck, match_route_get).post('/match', match_route_post);
 
 app.get('*', any_route_get);
 
-ChatExample.initialize();
-
-Questions.test(1, 1).then(console.log);
-Questions.test(2, 1).then(console.log);
-Questions.test(3, 1).then(console.log);
-Questions.test(4, 1).then(console.log);
-
-Questions.test(5, 2).then(console.log);
-Questions.test(6, 2).then(console.log);
-Questions.test(7, 2).then(console.log);
-Questions.test(8, 2).then(console.log);
+FightManager.start();

@@ -5,15 +5,8 @@
     <Name>KnowledgeKnockout</Name>
     <RootNamespace>KnowledgeKnockout</RootNamespace>
     <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
-    <Environment>NODE_ENV=development
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=KK_User
-DB_PASS=KK_Pwd
-DB_NAME=KK_DB
-DB_SessionStoreName=KK_DBSessStore
-SESSION_SECRET=eaO1LJRfcOZEiXMs
-SESSIONID=sid</Environment>
+    <Environment>
+    </Environment>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -39,9 +32,40 @@ SESSIONID=sid</Environment>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="public\searchMatch.html">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="views\add_question.html" />
+    <Content Include="views\chat.html" />
+    <Content Include="views\index.html">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="views\match.html">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="views\head.html" />
     <None Include="KnowledgeKnockout.ts" />
+    <Content Include=".env" />
+    <Content Include="build.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="package.json" />
+    <Content Include="public\HMTL_CSS\css\loginStyle.css" />
+    <Content Include="public\HMTL_CSS\css\mainStyle.css" />
+    <Content Include="public\HMTL_CSS\css\quizStyle.css" />
+    <Content Include="public\HMTL_CSS\css\uebungStyle.css" />
+    <Content Include="views\login.html" />
+    <Content Include="views\mainpage.html" />
+    <Content Include="public\HMTL_CSS\html\quiz.html" />
+    <Content Include="views\registration.html" />
+    <Content Include="public\HMTL_CSS\html\uebung.html" />
     <Content Include="public\js\add_question.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="public\js\login.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="public\js\registration.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="public\js\modules\ajax.js">
@@ -50,30 +74,40 @@ SESSIONID=sid</Environment>
     <Content Include="public\test.txt">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="views\training.html">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Fight\" />
     <Folder Include="mysql\" />
+    <Folder Include="public\HMTL_CSS\" />
+    <Folder Include="public\HMTL_CSS\css\" />
+    <Folder Include="public\HMTL_CSS\html\" />
+    <Folder Include="user\" />
     <Folder Include="public\js\" />
     <Folder Include="public\js\modules\" />
     <Folder Include="questions\" />
-    <Folder Include="users_example\" />
     <Folder Include="socket_connection\" />
     <Folder Include="views\" />
     <Folder Include="public\" />
     <Folder Include="routes\" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="chat_example.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
+    <TypeScriptCompile Include="Fight\Fight.ts" />
+    <TypeScriptCompile Include="Fight\FightManager.ts" />
+    <TypeScriptCompile Include="Fight\Player.ts" />
     <TypeScriptCompile Include="helpers.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="Match.ts">
+    <TypeScriptCompile Include="mysql\MySql.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="mysql\MySql.ts">
+    <TypeScriptCompile Include="questions\Answer.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="questions\Question.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="questions\Questions.ts">
@@ -83,25 +117,41 @@ SESSIONID=sid</Environment>
     <TypeScriptCompile Include="routes\any_route.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="routes\example_route.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
     <TypeScriptCompile Include="routes\index_route.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="routes\socketiotest_get_route.ts">
+    <TypeScriptCompile Include="routes\login_route.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="routes\logout_route.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="routes\match_route.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="routes\registration_route.ts" />
+    <TypeScriptCompile Include="routes\training_route.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="routes\mainpage_route.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="socket_connection\SocketConnection.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="users_example\Authentication.ts">
+    <TypeScriptCompile Include="user\Authentication.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="users_example\BCrypt.ts">
+    <TypeScriptCompile Include="user\Avatar.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="users_example\User.ts">
+    <TypeScriptCompile Include="user\BCrypt.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="user\User.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="user\Users.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="views\render.ts" />
