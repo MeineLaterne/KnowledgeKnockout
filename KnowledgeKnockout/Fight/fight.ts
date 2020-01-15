@@ -1,21 +1,19 @@
 import { asyncTimeout } from '../helpers';
 import { Questions } from '../questions/Questions';
 import { SocketConnection } from '../socket_connection/SocketConnection';
-import { Users } from '../user/Sessions';
 import { User } from '../user/User';
-import { Player } from './player';
+import { Player } from './Player';
 
 export class Fight {
     public players: Player[] = [];
-    public constructor(sessionIDs: string[]) {
-        const users = <User[]>sessionIDs.map(sessionID => Users.get(sessionID).user);
+    public constructor(users: User[]) {
         for (const user of users) {
             user.isInMatch = true;
-            console.log('!!!!!!!!!!!!!!!!!!!', user, Users.get(user.sessionID));
         }
+        console.log(users);
 
         const interval = setInterval(() => {
-            console.log(users.every(user => !!SocketConnection.get(user.sessionID)));
+            console.log(users);
             if (users.every(user => !!SocketConnection.get(user.sessionID))) {
                 for (const user of users) {
                     this.players.push(new Player(user));
@@ -24,7 +22,7 @@ export class Fight {
                 for (const player of this.players) {
                     player.socket.on('chatmessage', msg => {
                         for (const player_ of this.players) {
-                            player_.socket.emit('chatmessage', { msg: msg, user: player.user.name });
+                            player_.socket.emit('chatmessage', { msg, user: player.user.name });
                         }
                     });
                 }
@@ -33,7 +31,7 @@ export class Fight {
 
                 clearInterval(interval);
             }
-        }, 100);
+        }, 500);
     }
     private async Start(): Promise<void> {
         console.log('match start');
