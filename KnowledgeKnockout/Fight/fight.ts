@@ -1,39 +1,45 @@
 import { asyncTimeout } from '../helpers';
 import { Questions } from '../questions/Questions';
 import { SocketConnection } from '../socket_connection/SocketConnection';
-import { Users } from '../user/Sessions';
 import { User } from '../user/User';
-import { Player } from './player';
+import { Player } from './Player';
+import { Authentication } from '../user/Authentication';
 
 export class Fight {
     public players: Player[] = [];
-    public constructor(sessionIDs: string[]) {
-        const users = <User[]>sessionIDs.map(sessionID => Users.get(sessionID).user);
-        for (const user of users) {
-            user.isInMatch = true;
-            console.log('!!!!!!!!!!!!!!!!!!!', user, Users.get(user.sessionID));
-        }
-
-        const interval = setInterval(() => {
-            console.log(users.every(user => !!SocketConnection.get(user.sessionID)));
-            if (users.every(user => !!SocketConnection.get(user.sessionID))) {
-                for (const user of users) {
-                    this.players.push(new Player(user));
-                }
-
-                for (const player of this.players) {
-                    player.socket.on('chatmessage', msg => {
-                        for (const player_ of this.players) {
-                            player_.socket.emit('chatmessage', { msg: msg, user: player.user.name });
-                        }
-                    });
-                }
-
-                this.Start();
-
-                clearInterval(interval);
+    public constructor(userIds: string[]) {
+        (async () => {
+            let users: User[] = [];
+            for await (const user of userIds.map(userId => Authentication.createUser(userId))) {
+                if (user) users.push(<User>user);
             }
-        }, 100);
+
+            for (const user of users) {
+                user.isInMatch = true;
+            }
+            console.log(users);
+
+            const interval = setInterval(() => {
+                console.log(users);
+                if (users.every(user => !!SocketConnection.get(user.sessionID))) {
+                    for (const user of users) {
+                        this.players.push(new Player(user));
+                    }
+
+                    for (const player of this.players) {
+                        player.socket.on('chatmessage', msg => {
+                            for (const player_ of this.players) {
+                                player_.socket.emit('chatmessage', { msg, user: player.user.name });
+                            }
+                        });
+                    }
+
+                    this.Start();
+
+                    clearInterval(interval);
+                }
+            }, 500);
+        })();
     }
     private async Start(): Promise<void> {
         console.log('match start');

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Users } from '../user/Sessions';
+import { FightManager } from '../Fight/FightManager';
 import { render } from '../views/render';
 
 export async function match_route_get(req: Request, res: Response) {
@@ -11,8 +11,9 @@ export async function match_route_get(req: Request, res: Response) {
 export async function match_route_post(req: Request, res: Response) {
     if (req.session?.user && typeof req.body.isSearchingMatch === 'boolean') {
         req.session.user.isSearchingMatch = req.body.isSearchingMatch;
+
+        if (req.session.user.isSearchingMatch) FightManager.searchingUsers.push(req.session.user);
     }
 
-    if (req.session) console.log(Users.get(req.session.id), req.session);
-    res.send(!!req.session?.user?.isInMatch);
+    res.send({ isInMatch: !!req.session?.user?.isInMatch, isSearchingMatch: !!req.session?.user?.isSearchingMatch });
 }

@@ -13,20 +13,23 @@
             isSearchingMatch = !isSearchingMatch;
             button.value = isSearchingMatch ? 'stop searching' : 'search match';
 
-            const response = fetch('/match', {
+            const response = await fetch('/match', {
                 method: 'post',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ isSearchingMatch })
             });
+
+            const json = await response.json();
+            if (json.isSearchingMatch) window.location.href = '/match';
         });
 
-        setInterval(async () => {
-            const response = await fetch('/match', { method: 'post' });
+            //setInterval(async () => {
+            //    const response = await fetch('/match', { method: 'post' });
 
-            if (JSON.parse(await response.text())) {
-                window.location.href = '/match';
-            } else console.log(false);
-        }, 1000);
+            //    if (JSON.parse(await response.text())) {
+            //        window.location.href = '/match';
+            //    } else console.log(false);
+            //}, 1000);
 
     </script>
 </body>

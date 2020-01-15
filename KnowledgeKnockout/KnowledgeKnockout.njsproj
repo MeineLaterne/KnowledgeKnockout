@@ -42,9 +42,6 @@
     </Content>
     <Content Include="views\registration.html" />
     <Content Include="views\head.html" />
-    <Content Include="views\_example_head.html" />
-    <Content Include="views\_example_index.html" />
-    <Content Include="views\_example_socket.io.html" />
     <Content Include="views\_registration.html" />
     <None Include="KnowledgeKnockout.ts" />
     <Content Include=".env" />
@@ -57,7 +54,7 @@
     <Content Include="public\HMTL_CSS\css\quizStyle.css" />
     <Content Include="public\HMTL_CSS\css\uebungStyle.css" />
     <Content Include="public\HMTL_CSS\html\login.html" />
-    <Content Include="public\HMTL_CSS\html\main.html" />
+    <Content Include="public\HMTL_CSS\html\mainpage.html" />
     <Content Include="public\HMTL_CSS\html\quiz.html" />
     <Content Include="public\HMTL_CSS\html\registration.html" />
     <Content Include="public\HMTL_CSS\html\uebung.html" />
@@ -97,9 +94,6 @@
     <Folder Include="routes\" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="chat_example.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
     <TypeScriptCompile Include="Fight\Fight.ts" />
     <TypeScriptCompile Include="Fight\FightManager.ts" />
     <TypeScriptCompile Include="Fight\Player.ts" />
@@ -141,6 +135,9 @@
     <TypeScriptCompile Include="routes\training_route.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="routes\mainpage_route.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="socket_connection\SocketConnection.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -153,7 +150,7 @@
     <TypeScriptCompile Include="user\BCrypt.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="user\Sessions.ts">
+    <TypeScriptCompile Include="user\RequestObjects.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="user\User.ts">

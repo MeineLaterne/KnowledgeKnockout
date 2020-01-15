@@ -4,10 +4,10 @@ export class Avatar {
     private _id: number;
     private _level: number;
     public topicId: number;
-    public constructor(id: number, level: number, topicBlockId: number) {
+    public constructor(id: number, level: number, topicId: number) {
         this._id = id;
         this._level = level;
-        this.topicId = topicBlockId;
+        this.topicId = topicId;
     }
     public get level(): number {
         return this._level;
