@@ -16,8 +16,10 @@ export class Fight {
 
             for (const user of users) {
                 user.isInMatch = true;
+
+                console.log(`user ${user.id} is user: ${user instanceof User}`);
             }
-            console.log(users);
+            //console.log(users);
 
             const interval = setInterval(() => {
                 console.log(users);

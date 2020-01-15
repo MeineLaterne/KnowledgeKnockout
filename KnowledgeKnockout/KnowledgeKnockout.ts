@@ -75,4 +75,4 @@ app.get('/match', Authentication.loginCheck, match_route_get).post('/match', mat
 
 app.get('*', any_route_get);
 
-FightManager.initialize();
+//FightManager.initialize();
