@@ -38,7 +38,9 @@ submitBtn.onclick = async e => {
             body: JSON.stringify(data)
         });
 
-        alert(await res.json());
+        const loggedin = await res.json();
+
+        if (loggedin) location = '/mainpage';
 
     } catch (error) {
         alert(`Ein Fehler ist aufgetreten: ${error}`);

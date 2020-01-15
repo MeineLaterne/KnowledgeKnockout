@@ -1,4 +1,4 @@
-import { asyncTimeout } from '../helpers';
+import { asyncTimeout, asyncTimeoutWithCondition } from '../helpers';
 import { Questions } from '../questions/Questions';
 import { SocketConnection } from '../socket_connection/SocketConnection';
 import { User } from '../user/User';
@@ -11,10 +11,8 @@ export class Fight {
         for (const user of users) {
             user.isInMatch = true;
         }
-        console.log(users);
 
         const interval = setInterval(() => {
-            console.log(users);
             if (users.every(user => !!SocketConnection.get(user.sessionID))) {
                 for (const user of users) {
                     this.players.push(new Player(user));
@@ -40,14 +38,15 @@ export class Fight {
             player.socket.emit('avatarInfo', this.players.map(player_ => ({ isThisPlayer: player.socket.id === player_.socket.id, avatars: player_.user.avatars.map(avatar => ({ topicId: avatar.topicId, level: avatar.level })) })));
         }
 
-        for (let i = 0; i < this.players[0].user.avatars.length; i++) {
+        for (let i = 1; i < this.players[0].user.avatars.length + 1; i++) {
             const question = await Questions.getRandomQuestion(i);
 
             for (const player of this.players) {
+                player.answered = player.answerIsCorrect = false;
                 player.socket.emit('question', { id: question.id, content: question.content, time: question.secondsToSolve });
             }
 
-            await asyncTimeout(question.secondsToSolve * 1000);
+            await asyncTimeoutWithCondition(question.secondsToSolve * 1000, this.players.map(player => ({ reference: player, propertyName: 'answered', value: true })));
 
             if (this.players.every(player => player.answerIsCorrect)) {
                 for (const player of this.players) {

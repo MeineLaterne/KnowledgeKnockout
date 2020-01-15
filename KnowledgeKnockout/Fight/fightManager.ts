@@ -1,7 +1,6 @@
-import { User } from '../user/User';
-import { Fight } from './Fight';
 import { asyncTimeout } from '../helpers';
 import { Users } from '../user/Users';
+import { Fight } from './Fight';
 
 export class FightManager {
     public static async start(): Promise<void> {
