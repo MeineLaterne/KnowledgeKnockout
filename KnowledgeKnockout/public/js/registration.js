@@ -11,7 +11,7 @@ submitBtn.onclick = async e => {
 
     let data = {
         name: name.value,
-        password: bcrypt.hashSync(password.value),
+        password: password.value,
         email: email.value
     };
 
