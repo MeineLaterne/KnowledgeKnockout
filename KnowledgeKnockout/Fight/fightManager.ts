@@ -14,7 +14,7 @@ export class FightManager {
             if (i - 1 >= 0) {
                 console.log('creating match');
                 console.log(sortedUsers);
-                new Fight([sortedUsers[i], sortedUsers[i - 1]]);
+                new Fight([sortedUsers[i].id.toString(), sortedUsers[i - 1].id.toString()]);
                 sortedUsers[i].isSearchingMatch = sortedUsers[i - 1].isSearchingMatch = false;
             }
         }

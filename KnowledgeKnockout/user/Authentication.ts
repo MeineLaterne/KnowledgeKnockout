@@ -35,6 +35,16 @@ export class Authentication {
             return undefined;
         }
     }
+    public static async createUser(userID: string): Promise<User | undefined> {
+        try {
+            const result = await MySQL.query('SELECT * FROM user WHERE userId=?', [userID]);
+            return new User(result[0].id, result[0].name, result[0].email, result[0].progress);
+        }
+        catch (error) {
+            console.error(error);
+            return undefined;
+        }
+    }
     public static async userExists(name: string, email: string): Promise<boolean> {
         try {
             const result = await MySQL.query('SELECT * FROM user WHERE name=? OR email=?', [name, email]);
