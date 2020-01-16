@@ -57,7 +57,7 @@ app.use((req, res, next) => {
 
 app.get('/', index_route_get);
 
-app.get('/add-question', Authentication.loginCheck, add_question_route_get).post('/add-question', add_question_route_post);
+app.get('/add-question', Authentication.loginCheck, add_question_route_get).post('/add-question', Authentication.loginCheck, add_question_route_post);
 
 app.get('/register', registration_route_get).post('/register', registration_route_post);
 
@@ -66,9 +66,9 @@ app.get('/logout', logout_route_get);
 
 app.get('/mainpage', Authentication.loginCheck, mainpage_route_get);
 
-app.get('/training', Authentication.loginCheck, training_route_get).post('/training', training_route_post);
+app.get('/training', Authentication.loginCheck, training_route_get).post('/training', Authentication.loginCheck, training_route_post);
 
-app.get('/match', Authentication.loginCheck, match_route_get).post('/match', match_route_post);
+app.get('/match', Authentication.loginCheck, match_route_get).post('/match', Authentication.loginCheck, match_route_post);
 
 app.post('/userinfo', Authentication.loginCheck, userinfo_route_post);
 
