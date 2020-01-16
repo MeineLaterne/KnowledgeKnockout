@@ -15,15 +15,13 @@ import { any_route_get } from './routes/any_route';
 import { index_route_get } from './routes/index_route';
 import { login_route_get, login_route_post } from './routes/login_route';
 import { logout_route_get } from './routes/logout_route';
+import { mainpage_route_get } from './routes/mainpage_route';
 import { match_route_get, match_route_post } from './routes/match_route';
 import { registration_route_get, registration_route_post } from './routes/registration_route';
-import { socketiotest_get_route } from './routes/socketiotest_get_route';
-import { mainpage_route_get, mainpage_route_post } from './routes/mainpage_route';
 import { training_route_get, training_route_post } from './routes/training_route';
 import { SocketConnection } from './socket_connection/SocketConnection';
 import { Authentication } from './user/Authentication';
-import { RequestObjects } from './user/RequestObjects';
-
+import { Users } from './user/Users';
 
 
 const app = express();
@@ -50,15 +48,13 @@ app.use(session({
 }));
 
 app.use((req, res, next) => {
-    RequestObjects.set(req);
+    if (req.session?.id) req.session.user = Users.get(req.session.id);
 
     next();
 });
 
 
 app.get('/', index_route_get);
-
-app.get('/socketiotest', socketiotest_get_route);
 
 app.get('/add-question', Authentication.loginCheck, add_question_route_get).post('/add-question', add_question_route_post);
 
@@ -67,7 +63,7 @@ app.get('/register', registration_route_get).post('/register', registration_rout
 app.get('/login', login_route_get).post('/login', login_route_post);
 app.get('/logout', logout_route_get);
 
-app.get('/mainpage', Authentication.loginCheck, mainpage_route_get).post('/mainpage', mainpage_route_post);
+app.get('/mainpage', Authentication.loginCheck, mainpage_route_get);
 
 app.get('/training', Authentication.loginCheck, training_route_get).post('/training', training_route_post);
 
@@ -75,4 +71,4 @@ app.get('/match', Authentication.loginCheck, match_route_get).post('/match', mat
 
 app.get('*', any_route_get);
 
-FightManager.initialize();
+FightManager.start();

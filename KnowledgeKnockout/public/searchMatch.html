@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head>
-
-</head>
+<include head />
 <body>
     <input id="toggleSearchingMatch" type="button" value="search match" />
     <script>
         const button = document.getElementById('toggleSearchingMatch');
         let isSearchingMatch = false;
+        fetch('/match', {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ isSearchingMatch })
+        })
+            .then(r => r.json())
+            .then(o => isSearchingMatch = o.isSearchingMatch);
 
         button.addEventListener('click', async () => {
             isSearchingMatch = !isSearchingMatch;
@@ -18,18 +23,17 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ isSearchingMatch })
             });
-
-            const json = await response.json();
-            if (json.isSearchingMatch) window.location.href = '/match';
         });
 
-            //setInterval(async () => {
-            //    const response = await fetch('/match', { method: 'post' });
+        setInterval(async () => {
+            const response = await fetch('/match', { method: 'post' });
 
-            //    if (JSON.parse(await response.text())) {
-            //        window.location.href = '/match';
-            //    } else console.log(false);
-            //}, 1000);
+            const o = await response.json();
+            console.log(o);
+            if (o.isInMatch) {
+                window.location.href = '/match';
+            }
+        }, 1000);
 
     </script>
 </body>

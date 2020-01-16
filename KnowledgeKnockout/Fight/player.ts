@@ -7,6 +7,7 @@ export class Player {
     public user: User;
     public socket: Socket;
     public answerIsCorrect: boolean = false;
+    public answered: boolean = false;
     public score: number = 0;
     public constructor(user: User) {
         this.user = user;
@@ -15,6 +16,7 @@ export class Player {
         this.socket.on('testAnswer', this.TestAnswerEvent.bind(this));
     }
     private async TestAnswerEvent(message: any): Promise<void> {
+        this.answered = true;
         this.answerIsCorrect = await Questions.test(message.answerId, message.questionId);
     }
 }

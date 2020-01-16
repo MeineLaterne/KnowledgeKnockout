@@ -34,7 +34,9 @@ submitBtn.onclick = async e => {
                 body: JSON.stringify(data)
             });
 
-            alert(await res.json() ? 'logged in' : 'password or username incorrect');
+            const loggedin = await res.json();
+
+            if (loggedin) location = '/mainpage';
         } catch (error) {
             alert(`Ein Fehler ist aufgetreten: ${error}`);
         }
