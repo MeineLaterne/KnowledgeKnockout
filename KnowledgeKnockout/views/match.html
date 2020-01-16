@@ -6,7 +6,7 @@
 
     <p id="q"></p>
     <script>
-        const socket = io('/');
+        window.socket = io('/');
 
         socket.on('avatarInfo', msg => {
             console.log(msg);
