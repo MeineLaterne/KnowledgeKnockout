@@ -9,6 +9,7 @@
         const socket = io('/');
 
         socket.on('avatarInfo', msg => {
+            console.log('avatarInfo');
             console.log(msg);
         });
 

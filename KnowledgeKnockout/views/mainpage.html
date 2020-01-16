@@ -122,7 +122,9 @@
             const response = await fetch('/match', { method: 'post' });
 
             const o = await response.json();
+
             console.log(o);
+
             if (o.isInMatch) {
                 window.location.href = '/match';
             }
