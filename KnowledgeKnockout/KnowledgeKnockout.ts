@@ -12,6 +12,7 @@ import * as helmet from 'helmet';
 import { FightManager } from './Fight/fightManager';
 import { add_question_route_get, add_question_route_post } from './routes/add_question_route';
 import { any_route_get } from './routes/any_route';
+import { avatarinfo_route_post } from './routes/avatarinfo_route';
 import { index_route_get } from './routes/index_route';
 import { login_route_get, login_route_post } from './routes/login_route';
 import { logout_route_get } from './routes/logout_route';
@@ -68,6 +69,8 @@ app.get('/mainpage', Authentication.loginCheck, mainpage_route_get);
 app.get('/training', Authentication.loginCheck, training_route_get).post('/training', training_route_post);
 
 app.get('/match', Authentication.loginCheck, match_route_get).post('/match', match_route_post);
+
+app.post('/avatarinfo', Authentication.loginCheck, avatarinfo_route_post);
 
 app.get('*', any_route_get);
 
