@@ -43,7 +43,7 @@ export class Fight {
 
             for (const player of this.players) {
                 player.answered = player.answerIsCorrect = false;
-                player.socket.emit('question', { id: question.id, content: question.content, time: question.secondsToSolve });
+                player.socket.emit('question', { id: question.id, content: question.content, answers: (await Questions.getAnswers(question.id)).map(answer => ({ content: answer.content, id: answer.id })), time: question.secondsToSolve });
             }
 
             await asyncTimeoutWithCondition(question.secondsToSolve * 1000, this.players.map(player => ({ reference: player, propertyName: 'answered', value: true })));
@@ -68,7 +68,7 @@ export class Fight {
                 player.socket.emit('roundResult', this.players.map(player_ => ({ isThisPlayer: player.socket.id === player_.socket.id, correct: player_.answerIsCorrect, score: player_.score })));
             }
 
-            await asyncTimeout(3000);
+            await asyncTimeout(5000);
         }
 
         for (let j = 0; j < this.players.length; j++) {
@@ -78,7 +78,7 @@ export class Fight {
             player.socket.emit('matchend', this.players.map(player_ => ({ isThisPlayer: player.socket.id === player_.socket.id, score: player_.score, won: player.score > this.players[j + 1].score, progress: player.user.progress })));
         }
 
-        await asyncTimeout(5000);
+        await asyncTimeout(15000);
 
         for (const player of this.players) {
             player.user.isInMatch = false;
