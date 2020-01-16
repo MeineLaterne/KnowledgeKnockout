@@ -1,4 +1,4 @@
-import { asyncTimeout } from '../helpers';
+import { asyncTimeout, asyncTimeoutWithCondition } from '../helpers';
 import { Questions } from '../questions/Questions';
 import { SocketConnection } from '../socket_connection/SocketConnection';
 import { User } from '../user/User';
@@ -42,10 +42,11 @@ export class Fight {
             const question = await Questions.getRandomQuestion(i);
 
             for (const player of this.players) {
-                player.socket.emit('question', { id: question.id, content: question.content, time: question.secondsToSolve });
+                player.answered = player.answerIsCorrect = false;
+                player.socket.emit('question', { id: question.id, content: question.content, answers: (await Questions.getAnswers(question.id)).map(answer => ({ content: answer.content, id: answer.id })), time: question.secondsToSolve });
             }
 
-            await asyncTimeout(question.secondsToSolve * 1000);
+            await asyncTimeoutWithCondition(question.secondsToSolve * 1000, this.players.map(player => ({ reference: player, propertyName: 'answered', value: true })));
 
             if (this.players.every(player => player.answerIsCorrect)) {
                 for (const player of this.players) {
@@ -67,7 +68,7 @@ export class Fight {
                 player.socket.emit('roundResult', this.players.map(player_ => ({ isThisPlayer: player.socket.id === player_.socket.id, correct: player_.answerIsCorrect, score: player_.score })));
             }
 
-            await asyncTimeout(3000);
+            await asyncTimeout(5000);
         }
 
         for (let j = 0; j < this.players.length; j++) {
@@ -77,7 +78,7 @@ export class Fight {
             player.socket.emit('matchend', this.players.map(player_ => ({ isThisPlayer: player.socket.id === player_.socket.id, score: player_.score, won: player.score > this.players[j + 1].score, progress: player.user.progress })));
         }
 
-        await asyncTimeout(5000);
+        await asyncTimeout(15000);
 
         for (const player of this.players) {
             player.user.isInMatch = false;
